@@ -22,36 +22,63 @@ renderer.xr.enabled = true;
 let controls = new OrbitControls(camera, renderer.domElement);
 
 // Setting the scene lights
-const ambient_light = new THREE.AmbientLight(0xbda355);
-const direction_light = new THREE.DirectionalLight(0xffffff, 1);
+const ambient_light = new THREE.AmbientLight(0x99e699);
+const direction_light = new THREE.DirectionalLight(0xffffff, 4);
 ambient_light.add(direction_light);
 scene.add(ambient_light)
 
 // Setting up a flat space of the Metaverse
-const geometry_space = new THREE.BoxGeometry(100, 0.2, 50);
+const geometry_space = new THREE.BoxGeometry(200, 0.2, 50);
 const material_space = new THREE.MeshPhongMaterial({ color: 0xffffff });
 const space = new THREE.Mesh(geometry_space, material_space);
 scene.add(space);
 
 // Geometric figure to be represented in the Metaverse: Cube
-const geometry = new THREE.BoxGeometry();
+const geometry = new THREE.BoxGeometry(2, 2, 2, 2);
 const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
 const cube = new THREE.Mesh(geometry, material);
+cube.position.set(5, 2)
 scene.add(cube);
 
 // Geometric figure to be represented in the Metaverse: Cone
 const geometry_cone = new THREE.ConeGeometry(5, 20, 32);
 const material_cone = new THREE.MeshPhongMaterial({ color: 0xed810a });
 const cone = new THREE.Mesh(geometry_cone, material_cone);
-cone.position.set(-10, 5, 0);
+cone.position.set(-10, 12, 0);
 scene.add(cone);
 
 // Geometric figure to be represented in the Metaverse: Cylinder
 const geometry_cylinder = new THREE.CylinderGeometry(5, 5, 5, 32);
 const material_cylinder = new THREE.MeshPhongMaterial({ color: 0x0000ff });
 const cylinder = new THREE.Mesh(geometry_cylinder, material_cylinder);
-cylinder.position.set(20, 5, 0);
+cylinder.position.set(20, 6, 0);
 scene.add(cylinder);
+
+// Geometric figure to be represented in the Metaverse: TorusKnot
+const geometry_torusKnot = new THREE.TorusKnotGeometry( 10, 3, 100, 16 );
+const material_torusKnot = new THREE.MeshPhongMaterial( { color:  0xff0000 } );
+const torusKnot = new THREE.Mesh( geometry_torusKnot, material_torusKnot );
+torusKnot.position.set(50, 18, 0);
+scene.add( torusKnot );
+
+// Geometric figure to be represented in the Metaverse: Shape
+const x = 0, y = 0;
+
+const heartShape = new THREE.Shape();
+
+heartShape.moveTo( x + 5, y + 5 );
+heartShape.bezierCurveTo( x + 5, y + 5, x + 4, y, x, y );
+heartShape.bezierCurveTo( x - 6, y, x - 6, y + 7,x - 6, y + 7 );
+heartShape.bezierCurveTo( x - 6, y + 11, x - 3, y + 15.4, x + 5, y + 19 );
+heartShape.bezierCurveTo( x + 12, y + 15.4, x + 16, y + 11, x + 16, y + 7 );
+heartShape.bezierCurveTo( x + 16, y + 7, x + 16, y, x + 10, y );
+heartShape.bezierCurveTo( x + 7, y, x + 5, y + 5, x + 5, y + 5 );
+
+const geometry_shape = new THREE.ShapeGeometry( heartShape  );
+const material_shape = new THREE.MeshPhongMaterial( { color: 0xe6e600 } );
+const shape = new THREE.Mesh( geometry_shape, material_shape ) ;
+shape.position.set(-50, 10);
+scene.add( shape );
 
 window.addEventListener('resize', onWindowResize);
 
@@ -69,6 +96,11 @@ function render() {
     cone.rotation.y += 0.01;
 
     cylinder.rotation.x += 0.05;
+
+    torusKnot.rotation.x += 0.01;
+    torusKnot.rotation.y += 0.03;
+
+    shape.rotation.x += 0.01;
 
     requestAnimationFrame(animate);
     controls.update();
